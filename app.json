@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "vgtb-app",
+    "slug": "vgtb-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "vgtb-app"
+}

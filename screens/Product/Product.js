@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 // import all the components we are going to use
 import {
@@ -17,7 +17,10 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { api } from "../../api";
 import axios from "axios";
-const Product = ({ route,navigation }) => {
+import { RandomNumber } from "../../components/context";
+const Product = ({ route, navigation }) => {
+  const {randomNum} = React.useContext(RandomNumber);
+  console.log("randomNum = " + randomNum);
   const { itemId } = route.params;
   const { typeID } = route.params;
 
@@ -43,7 +46,7 @@ const Product = ({ route,navigation }) => {
       .catch((error) => {
         console.error(error);
       });
-  }, [typeID]);
+  }, [ran]);
   // console.log(datauser);
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -189,6 +192,7 @@ const Product = ({ route,navigation }) => {
     // Function for click on an item
     alert("Id : " + item.id + " Title : " + item.title);
   };
+
   const seletedata = async (proname, product_id, price_id, amount) => {
     var grade = "D";
     if (datauser == "D") {
@@ -200,8 +204,6 @@ const Product = ({ route,navigation }) => {
     } else if (datauser == "A") {
       grade = "A";
     }
-
-    
     console.log("amount = " + amount);
     if (amount == null || amount == 0) {
       Alert.alert(
@@ -264,16 +266,16 @@ const Product = ({ route,navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.boxSearch}>
-        <View style={{ alignItems: "center" ,position:"relative"}}>
-        <View style={{ position:"absolute",left:-45,top:10}}>
-          <Icon
-            name="arrow-circle-left"
-            size={30}
-            color="#fff"
-            onPress={() => {
-              navigation.navigate("Type");
-            }}
-          />
+        <View style={{ alignItems: "center", position: "relative" }}>
+          <View style={{ position: "absolute", left: -45, top: 10 }}>
+            <Icon
+              name="arrow-circle-left"
+              size={30}
+              color="#fff"
+              onPress={() => {
+                navigation.navigate("Type");
+              }}
+            />
           </View>
           <Text
             style={{

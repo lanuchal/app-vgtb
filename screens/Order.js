@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
 // import all the components we are going to use
 import {
@@ -18,9 +18,13 @@ import { Button } from "react-native-elements";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { api } from "../api";
 import axios from "axios";
+import { RandomNumber } from "../components/context";
 var count = 0;
 var indexX = [];
 const Order = ({ route }) => {
+
+  const {randomNum, setrandomNum} = useContext(RandomNumber);
+
   const { itemId } = route.params;
   const [search, setSearch] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -94,8 +98,8 @@ const Order = ({ route }) => {
   const sub_str4 = str_3.indexOf(String(`"`));
   const str_4 = str_3.substring(sub_str4 + 1);
   const sub_str5 = str_4.indexOf(String(`"`));
-  const str_5 = str_4.substring(0, sub_str5); 
-  
+  const str_5 = str_4.substring(0, sub_str5);
+
   useEffect(() => {
     count = 0;
     for (let index = 0; index < filteredDataSource.length; index++) {
@@ -152,6 +156,7 @@ const Order = ({ route }) => {
       {
         text: "ยืนยัน",
         onPress: async () => {
+          setrandomNum(10);
           console.log("submit Pressed");
           await axios.put(api + "/submitorder", {
             bill_id: id,

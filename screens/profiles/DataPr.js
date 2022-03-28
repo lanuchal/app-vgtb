@@ -21,6 +21,8 @@ import ImagePicker from "react-native-image-crop-picker";
 import { androidCameraPermission } from "../../permissions";
 
 import { AuthContext } from "../../components/context";
+const noImg =
+  "https://www.ผักสดเชียงใหม่.com/image/product_image/no-image.jpeg";
 const DataPr = ({ route, navigation }) => {
   const [storeName, setStoreName] = useState("");
   const [userName, setUserName] = useState("");
@@ -28,12 +30,8 @@ const DataPr = ({ route, navigation }) => {
   const [tel, setTel] = useState("");
   const [regisDate, setRegisDate] = useState("");
   const [distance, setDistance] = useState("");
-  const [img1, setImg1] = useState(
-    "https://www.ผักสดเชียงใหม่.com/image/product_image/no-image.jpeg"
-  );
-  const [img2, setImg2] = useState(
-    "https://www.ผักสดเชียงใหม่.com/image/product_image/no-image.jpeg"
-  );
+  const [img1, setImg1] = useState();
+  const [img2, setImg2] = useState();
 
   const [lat, setLat] = useState(0);
   const [long, setLong] = useState(0);
@@ -60,7 +58,7 @@ const DataPr = ({ route, navigation }) => {
       setRegisDate(date);
       setTel(
         checkTel == "-" || checkTel == " "
-          ? "ยังไม่ได้กรอกเบอร์โทรสัพท์"
+          ? "ยังไม่ได้กรอกเบอร์โทรศัพท์"
           : getData.data[0].user_tel
       );
       setAddress(getData.data[0].addr);
@@ -71,17 +69,17 @@ const DataPr = ({ route, navigation }) => {
       setDistance(getData.data[0].distance);
 
       setImg1(
-        getData.data[0].user_img1.length < 10
-          ? "https://hotel78maldives.com/thecatch/wp-content/uploads/2021/03/NoImageAvailable.png"
-          : getData.data[0].user_img1
+        getData.data[0].user_img1 == " " || getData.data[0].user_img1 == null
+          ? String(noImg)
+          : String(getData.data[0].user_img1)
       );
       setImg2(
-        getData.data[0].user_img2.length < 10
-          ? "https://hotel78maldives.com/thecatch/wp-content/uploads/2021/03/NoImageAvailable.png"
-          : getData.data[0].user_img2
+        getData.data[0].user_img2 == " " || getData.data[0].user_img2 == null
+          ? String(noImg)
+          : String(getData.data[0].user_img2)
       );
     });
-  }, [up]);
+  }, [setAction]);
 
   const onSelectImage = async (prat, file) => {
     const permissionStatus = await androidCameraPermission();
@@ -99,10 +97,18 @@ const DataPr = ({ route, navigation }) => {
       width: 300,
       height: 400,
       cropping: true,
-    }).then((image) => {
-      console.log(image);
-      imageUpload(image.path, prat, file);
-    });
+    })
+      .then((image) => {
+        console.log(image);
+        imageUpload(image.path, prat, file);
+      })
+      .catch((err) => {
+        if (err) {
+          setSetAction(function randomIntFromInterval() {
+            return Math.floor(Math.random() * (100000000 - 1 + 1) + 1);
+          });
+        }
+      });
   };
 
   const onGallery = (prat, file) => {
@@ -110,10 +116,18 @@ const DataPr = ({ route, navigation }) => {
       width: 300,
       height: 400,
       cropping: true,
-    }).then((image) => {
-      console.log("selected Image", image);
-      imageUpload(image.path, prat, file);
-    });
+    })
+      .then((image) => {
+        console.log("selected Image", image);
+        imageUpload(image.path, prat, file);
+      })
+      .catch((err) => {
+        if (err) {
+          setSetAction(function randomIntFromInterval() {
+            return Math.floor(Math.random() * (100000000 - 1 + 1) + 1);
+          });
+        }
+      });
   };
 
   const imageUpload = async (imagePath, prat, file) => {
@@ -134,22 +148,9 @@ const DataPr = ({ route, navigation }) => {
     })
       .then(async (response) => {
         console.log("image upload successfully", response.data);
-
-        await axios.get(api + "/user/" + itemId).then((result) => {
-          setImg1(
-            result.data[0].data[0].user_img1.length < 10
-              ? "https://hotel78maldives.com/thecatch/wp-content/uploads/2021/03/NoImageAvailable.png"
-              : result.data[0].data[0].user_img1
-          );
-          setImg2(
-            result.data[0].data[0].user_img2.length < 10
-              ? "https://hotel78maldives.com/thecatch/wp-content/uploads/2021/03/NoImageAvailable.png"
-              : result.data[0].data[0].user_img2
-          );
+        setSetAction(function randomIntFromInterval() {
+          return Math.floor(Math.random() * (100000000 - 1 + 1) + 1);
         });
-        // setSetAction(function randomIntFromInterval() {
-        //   return Math.floor(Math.random() * (100000000 - 1 + 1) + 1);
-        // });
       })
       .then((error) => {
         console.log("error riased", error);
@@ -273,7 +274,7 @@ const DataPr = ({ route, navigation }) => {
                 marginBottom: 5,
               }}
             >
-              เบอร์โทรสัพท์
+              เบอร์โทรศัพท์
             </Text>
             <Text
               style={{
@@ -467,7 +468,7 @@ const DataPr = ({ route, navigation }) => {
             onPress={() => {
               Alert.alert("ออกจากระบบ", "ยืนยันออกจากระบบ", [
                 { text: "ยืนยัน", onPress: () => signOut() },
-                { text: "ยกเลฺก" },
+                { text: "ยกเลฺิก" },
               ]);
               console.log("logout");
             }}

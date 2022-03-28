@@ -69,89 +69,95 @@ const Home = ({ route }) => {
   const ItemView = ({ item }) => {
     const box = (price) => {
       return (
-        <View
-          style={styles.boxItems}
-          onPress={() => {
-            seletedata(item.product_name, item.product_id, item.product_price);
-          }}
-        >
-          {/* https://www.ผักสดเชียงใหม่.com/image/product_image/676.jpg */}
-          <ImageBackground
-            source={{
-              uri: `https://hotel78maldives.com/thecatch/wp-content/uploads/2021/03/NoImageAvailable.png`,
-            }}
-            resizeMode="cover"
-            style={{ flex: 1, justifyContent: "center" }}
-          >
-            <Image
-              source={{
-                uri: `https://www.ผักสดเชียงใหม่.com/image/product_image/${item.product_id}.jpg`,
-              }}
-              style={{ width: 180, height: 180 }}
-            />
-          </ImageBackground>
+        <View style={styles.boxItemsAll}>
           <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              marginTop: 1,
-              position: "relative",
+            style={styles.boxItems}
+            onPress={() => {
+              seletedata(
+                item.product_name,
+                item.product_id,
+                item.product_price
+              );
             }}
           >
-            <Text style={styles.itemStyle} onPress={() => getItem(item)}>
-              {item.product_name.toUpperCase()}{" "}
+            {/* https://www.ผักสดเชียงใหม่.com/image/product_image/676.jpg */}
+            <ImageBackground
+              source={{
+                uri: `https://hotel78maldives.com/thecatch/wp-content/uploads/2021/03/NoImageAvailable.png`,
+              }}
+              resizeMode="cover"
+              style={{ flex: 1, justifyContent: "center" }}
+            >
+              <Image
+                source={{
+                  uri: `https://www.ผักสดเชียงใหม่.com/image/product_image/${item.product_id}.jpg`,
+                }}
+                style={{ width: 180, height: 180 }}
+              />
+            </ImageBackground>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                marginTop: 1,
+                position: "relative",
+              }}
+            >
+              <Text style={styles.itemStyle} onPress={() => getItem(item)}>
+                {item.product_name.toUpperCase()}{" "}
+              </Text>
+              <View
+                style={{
+                  marginRight: 20,
+                  position: "absolute",
+                  right: 0,
+                  top: 18,
+                }}
+              >
+                <Icon
+                  name="shopping-cart"
+                  size={25}
+                  color="#029c0f"
+                  onPress={() => {
+                    seletedata(
+                      item.product_name,
+                      item.product_id,
+                      item.price_id,
+                      item.product_amount
+                    );
+                  }}
+                />
+              </View>
+            </View>
+            <Text
+              style={{
+                marginLeft: 5,
+                alignSelf: "flex-start",
+                fontSize: 13,
+                margin: 2,
+              }}
+            >
+              คงเหลือ{" "}
+              {item.product_amount == null || item.product_amount == 0 ? (
+                <Text style={{ color: "#750e0b" }}> สินค้าหมด</Text>
+              ) : (
+                item.product_amount
+              )}
             </Text>
             <View
               style={{
-                marginRight: 20,
-                position: "absolute",
-                right: 0,
-                top: 18,
+                display: "flex",
+                flexDirection: "row",
               }}
             >
-              <Icon
-                name="shopping-cart"
-                size={25}
-                color="#029c0f"
-                onPress={() => {
-                  seletedata(
-                    item.product_name,
-                    item.product_id,
-                    item.price_id,
-                    item.product_amount
-                  );
-                }}
-              />
+              <Text style={{ flexGrow: 1, marginLeft: 5, fontSize: 13 }}>
+                หน่วย ( 1 {item.unit_name} )
+              </Text>
+              <Text style={{ marginRight: 5, color: "#054d05" }}>
+                {price}
+                {" บาท "}
+              </Text>
             </View>
-          </View>
-          <Text
-            style={{
-              marginLeft: 5,
-              alignSelf: "flex-start",
-              fontSize: 13,
-              margin: 2,
-            }}
-          >
-            คงเหลือ{" "}
-            {item.product_amount == null || item.product_amount == 0 ? (
-              <Text style={{ color: "#750e0b" }}> สินค้าหมด</Text>
-            ) : (
-              item.product_amount
-            )}
-          </Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-            }}
-          >
-            <Text style={{ flexGrow: 1, marginLeft: 5, fontSize: 13 }}>
-              หน่วย ( 1 {item.unit_name} )
-            </Text>
-            <Text style={{ marginRight: 5, color: "#054d05" }}>
-              {price}
-              {" บาท "}
-            </Text>
           </View>
         </View>
       );
@@ -391,7 +397,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    padding: 5,
     paddingLeft: 10,
     paddingRight: 10,
   },
@@ -399,11 +404,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   input: {
+    
     marginLeft: 5,
     flex: 1,
     padding: 5,
     backgroundColor: "#fff",
     color: "#424242",
+    height:50
   },
   itemStyle: {
     // padding: 10,
@@ -423,8 +430,12 @@ const styles = StyleSheet.create({
     borderColor: "#009688",
     backgroundColor: "#FFFFFF",
   },
+  boxItemsAll:{
+    width:"50%",
+    alignItems:"center"
+  },
   boxItems: {
-    width: "48%",
+    width: "95%",
     justifyContent: "center",
     paddingTop: 0,
     alignItems: "center",
@@ -432,8 +443,6 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingBottom: 10,
     height: 280,
-    marginLeft: "auto",
-    marginRight: "auto",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

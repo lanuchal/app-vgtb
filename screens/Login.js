@@ -38,12 +38,14 @@ const Login = ({ navigation }) => {
       createTwoButtonAlert();
       console.log("errorrrrrr");
     } else {
+      console.log(api + "/login");
       await axios
         .post(api + "/login", {
           user_username: userName,
           user_password: passWord,
         })
         .then((response) => {
+          
           return response.data;
         })
         .then((data) => {
@@ -53,6 +55,7 @@ const Login = ({ navigation }) => {
               { text: "OK", onPress: () => console.log("OK Pressed") },
             ]);
           } else {
+            console.log("userid = login " + userid)
             const userid = data[0].data[0].user_id;
             const user = data[0].data[0].user_username;
             const pass = data[0].data[0].user_password;

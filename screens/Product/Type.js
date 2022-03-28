@@ -15,6 +15,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import { api } from "../../api";
 import axios from "axios";
+import { RandomNumber } from "../../components/context";
 const Type = ({ route, navigation }) => {
   // const { itemId } = route.params;
   const [search, setSearch] = useState("");
@@ -23,6 +24,8 @@ const Type = ({ route, navigation }) => {
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [datauser, setDatauser] = useState([]);
 
+  const {randomNum, setrandomNum} = React.useContext(RandomNumber);
+  const [rannn, setrannn] = useState(randomNum)
   useEffect(async () => {
     setIsLoading(true);
     fetch(api + "/producttype")
@@ -84,7 +87,7 @@ const Type = ({ route, navigation }) => {
       typeID: item.cate_id,
     });
   };
-
+  console.log(randomNum)
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.boxSearch}>

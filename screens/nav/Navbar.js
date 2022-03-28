@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -10,6 +10,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import Hproduct from "../Product/Hproduct";
 import OrderPage from "../order/OrderPage";
 import Notification from "../order/Notifications";
+import { RandomNumber } from "../../components/context";
 const Tab = createBottomTabNavigator();
 
 function randomIntFromInterval() {
@@ -101,10 +102,14 @@ export default function Navbar({ route, navigation, userId }) {
   // const { userId } = route.params;
   // const data = JSON.stringify(route.params);
   // const { navigation } = this.props;
+  const x = 3;
+  const [randomNum, setrandomNum] = useState(0)
   console.log(rnd);
   return (
     <NavigationContainer independent={true}>
-      <MyTabs userid={userId} rnd={rnd} />
+      <RandomNumber.Provider value={{randomNum,setrandomNum}}>
+        <MyTabs userid={userId} rnd={rnd} />
+      </RandomNumber.Provider>
     </NavigationContainer>
   );
 }
